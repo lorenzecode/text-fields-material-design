@@ -1,0 +1,228 @@
+// Variables
+
+$cubic: .2s cubic-bezier(.4, 0, .2, 1);
+$black87: rgba(0, 0, 0, .87);
+$black60: rgba(0, 0, 0, .60);
+$black42: rgba(0, 0, 0, .42);
+$black22: rgba(0, 0, 0, .22);
+$grayLight: #f5f5f5;
+$gray: #ececec;
+$grayDark: #e3e3e3;
+$blue: #1a73e8;
+
+// Reset
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+// Base
+
+form {
+  width: 400px;
+  margin: 6% 3%;
+}
+fieldset {
+  border: 0;
+  border-top: 1px solid;
+  padding: 32px 0;
+}
+legend {
+  background: #ffffff;
+  padding: 0 8px 0 0;
+}
+
+// Placeholders
+
+%field {
+  display: block;
+  position: relative;
+}
+%input {
+  width: 100%;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 500;
+  color: $black87;
+  outline: none;
+}
+%label {
+  font-size: 16px;
+  font-weight: 500;
+  color:$black60;
+  pointer-events: none;
+  transition: $cubic;
+  position: absolute;
+  top: 16px;
+}
+%line {
+  height: 2px;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  transition: $cubic;
+}
+
+// Component field filled
+
+%focus-label-filled {
+  top: 8px;
+  left: 12px;
+  font-size: 12px;
+}
+.field-filled {
+  @extend %field;
+
+  > .input {
+    @extend %input;
+    border: 0;
+    border-bottom: 1px solid $black42;
+    border-radius: 4px 4px 0 0;
+    background: $grayLight;
+    padding: 20px 12px 0;
+
+    &:hover {
+      background: $gray;
+    }
+    &:focus {
+      background: $grayDark;
+
+      ~ .label {
+        color: $blue;
+        @extend %focus-label-filled;
+      }
+      ~ .line {
+        background: $blue;
+        width: 100%;
+      }
+    }
+    &:valid {
+      ~ .label {
+        @extend %focus-label-filled;
+      }
+    }
+  }
+  > .label {
+    @extend %label;
+    left: 16px;
+  }
+  > .line {
+    @extend %line;
+  }
+}
+
+// Component field outlined
+
+%focus-label-outliend {
+  background: #ffffff;
+  top: -8px;
+  left: 10px;
+  font-size: 12px;
+  padding: 0 8px;
+}
+.field-outlined {
+  @extend %field;
+
+  > .input {
+    @extend %input;
+    padding: 0 16px;
+    border-radius: 4px;
+    border: 1px solid $black22;
+
+    &:hover {
+      border-color: $black42;
+    }
+    &:focus {
+      border: 2px solid $blue;
+
+      ~ .label {
+        color: $blue;
+        @extend %focus-label-outliend;
+      }
+    }
+    &:valid {
+      ~ .label {
+        @extend %focus-label-outliend;
+      }
+    }
+  }
+  > .label {
+    @extend %label;
+    left: 16px;
+  }
+
+}
+
+// Component field old
+
+%focus-label-old {
+  top: -8px;
+  font-size: 12px;
+}
+.field-old {
+  @extend %field;
+
+  > .input {
+    @extend %input;
+    border: 0;
+    border-bottom: 1px solid $black22;
+
+    &:hover {
+      border-bottom: 1px solid $black42;
+    }
+    &:focus {
+      ~ .label {
+        color: $blue;
+        @extend %focus-label-old;
+      }
+      ~ .line {
+        background: $blue;
+        width: 100%;
+      }
+    }
+    &:valid {
+      ~ .label {
+        @extend %focus-label-old;
+      }
+    }
+  }
+  > .label {
+    @extend %label;
+  }
+  > .line {
+    @extend %line;
+  }
+}
+
+// Valid
+
+.valid {
+  .field-outlined {
+    > input:valid {
+      border: 2px solid $blue;
+    }
+  }
+  input {
+    &:valid {
+      ~ label {
+        color: $blue;
+      }
+      ~ .line {
+        width: 100%;
+        background: $blue;
+      }
+    }
+  }
+}
